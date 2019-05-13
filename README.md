@@ -1,4 +1,4 @@
-# archpi.install
+# ansible-archpi
 
 ## :warning: rough draft ⚠️:warning:
 
