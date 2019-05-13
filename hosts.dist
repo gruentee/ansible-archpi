@@ -1,0 +1,5 @@
+[arch_arm_hosts]
+myhost ansible_host=10.1.0.1 ansible_user=alarm
+
+#[arch_arm_hosts:vars]
+#remote_user="alarm"

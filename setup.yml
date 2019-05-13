@@ -1,0 +1,9 @@
+---
+# Install prerequisites for using Ansible properly
+- hosts: arch_arm_hosts
+  become: yes
+  become_method: su
+  become_user: root
+  gather_facts: no
+  - name: 'setup pacman and install python'
+    raw: 'pacman-key --init && pacman-key --populate archlinuxarm && pacman -S --noconfirm python'

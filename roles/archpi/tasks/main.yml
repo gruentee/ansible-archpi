@@ -1,0 +1,67 @@
+---
+- name: Set time zone
+  file:
+    src: /usr/share/zoneinfo/{{ time_zone }}
+    dest: /etc/localtime
+    state: link
+    force: true
+
+- name: Set locale
+  locale_gen:
+    name: "{{ locale }}"
+    state: present
+
+- name: Set keyboard layout
+  lineinfile:
+    path: /etc/vconsole.conf
+    regexp: '^KEYMAP'
+    line: "KEYMAP={{ keymap }}"
+    create: true
+
+
+- name: Initialize pacman keyring
+  command: pacman-key --init
+  command: pacman-key --populate archlinuxarm
+
+# - name: Enable hardware watchdog
+  # TODO
+
+# - name: Enable Hardware Random Number Generator
+  # TODO
+- name: Set GPU/memory share
+  lineinfile:
+    path: /boot/config.txt
+    regexp: '^gpu_mem'
+    line: "gpu_mem={{ GPU_MEMORY_SHARE }}"
+
+- name: Install and configure sudo
+  pacman:
+    name: sudo
+    state: present
+
+- name: Install misc stuff
+  pacman:
+    name: "{{ packages }}"
+    state: latest
+    update_cache: yes
+  vars:
+    packages:
+    - distcc
+    - ccache
+    - base-devel
+    - htop
+
+- name: Set hostname
+  hostname:
+    name: "{{ host_name }}"
+  # TODO
+  # lineinfile:
+  #   path: /etc/hosts
+  #   regexp: '^127\.0\.0\.1'
+  #   line: '127.0.0.1 localhost'
+  #   owner: root
+  #   group: root
+  #   mode: 0644
+
+- name: Reboot
+  reboot:

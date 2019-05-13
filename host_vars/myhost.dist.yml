@@ -1,0 +1,6 @@
+---
+time_zone: Europe/Berlin
+locale: de_DE.UTF-8
+keymap: de_latin1
+GPU_MEMORY_SHARE: 16
+host_name: peaches
